@@ -49,36 +49,57 @@
 /****** HOOKS ******/
 /*******************/
 
-import React from "react";
+import React, {Fragment, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {increment, decrement} from '../../redux/counter/action';
+import {loadAllUsers} from '../../redux/user/action';
+
 
 function Home() {
 
     // on s'abonne et on récupère les states du store
-    const {count, name, msg} = useSelector(state => ({
-            count : state.value,
-            name: state.name,
-            msg: state.msg,
-            })
-        );
-
+    const {value, msg, isLogged, infos} = useSelector(state => ({
+        ...state.counterReducer,
+        ...state.userReducer,
+    }));
+      
+    
     // permets de dispatch une fonction directement depuis l'import
     const dispatch = useDispatch();
+    
+    useEffect(()=>{
+
+        dispatch(loadAllUsers());
+
+    }, [])
 
     return (
         <>
             <h1>HOME PAGE</h1>
 
-            
-            <p>Salut {name}</p>
-            <p>{count}</p>
+            {
+                isLogged && <p>user is connected</p>
+            }
+
+            {/* <p>Salut {name}</p> */}
+            <p>{value}</p>
 
             <button onClick={() => dispatch(increment())}>+ 1</button>
             <button onClick={() => dispatch(decrement(2))}>- 2</button>
 
             {
                 msg && <p>{msg}</p>
+            }
+
+            {
+                infos.map(user=>{
+                    return (
+                        <Fragment key={user.id}>
+                            <p>{user.alias}</p>
+                        </Fragment>
+                    )
+                })
+
             }
 
         </>

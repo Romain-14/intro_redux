@@ -3,8 +3,7 @@ import {INCREMENT, DECREMENT} from '../type';
 
 const INITIAL_STATE = {
     value: 0,
-    age: 17,
-    name: "Joe",
+    msg: "rezferf"
 }
 
 const counterReducer = ( state = INITIAL_STATE, action) => {
