@@ -11,15 +11,15 @@ const counterReducer = ( state = INITIAL_STATE, action) => {
     console.log(action.type);
     switch (action.type) {
         case INCREMENT:
-            console.log('inc');
             return {
                 ...state,
                 value: state.value + 1,
+                msg: action.payload
             }
         case DECREMENT:
             return {
                 ...state,
-                value: state.value - 1,
+                value: state.value - action.payload,
             }            
     
         default: return state
